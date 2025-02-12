@@ -1,0 +1,59 @@
+server:
+  port: 7000
+
+spring:
+  application:
+    name: gateway
+
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true  # ✅ Convierte los nombres de servicio a minúsculas en Eureka
+         
+      routes:
+        - id: users
+          uri: lb://users
+          predicates:
+            - Path=/api/users/**
+
+        - id: authentication
+          uri: lb://authentication
+          predicates:
+            - Path=/auth/**
+
+        - id: catalog
+          uri: lb://catalog
+          predicates:
+            - Path=/api/**
+
+        - id: shopping-cart
+          uri: lb://shopping-cart
+          predicates:
+            - Path=/shopping-cart/**
+          
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://admin:admin@localhost:8761/eureka/
+    registerWithEureka: true
+    fetchRegistry: true
+    eurekaServerBasicAuthUserName: admin
+    eurekaServerBasicAuthPassword: admin
+  instance:
+    hostname: localhost
+    preferIpAddress: true
+
+# ✅ Configuración de SpringDoc OpenAPI para mostrar la documentación de los microservicios
+springdoc:
+  swagger-ui:
+    urls:
+      - name: API de Autentificación
+        url: /authentication/v3/api-docs
+      - name: API de usuarios
+        url: /users/v3/api-docs
+      - name: API de Catálogo de Productos
+        url: /api/catalog/v3/api-docs
+      - name: API de Carrito de Compras
+        url: /shopping-cart/v3/api-docs	
