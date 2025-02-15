@@ -35,6 +35,7 @@
     <module>shoppingCart</module>
     <module>prueba</module>
     <module>apiGateway</module>
+    <module>orders</module>
   </modules>
 
   <properties>

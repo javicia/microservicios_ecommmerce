@@ -18,7 +18,7 @@ public class GatewaySwaggerConfig {
 		return new OpenAPI()
 				.info(new Info().title("API Gateway - Documentación Centralizada").version("1.0")
 						.description("Esta API centraliza la documentación de todos los microservicios")
-						.contact(new Contact().name("Soporte API").email("support@example.com")))
+						.contact(new Contact().name("Soporte API").email("javigpdeveloper@gmail.com")))
 				.servers(List.of(new Server().url("http://localhost:7000").description("API Gateway")
 
 				));

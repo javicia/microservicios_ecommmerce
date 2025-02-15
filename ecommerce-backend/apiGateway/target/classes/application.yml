@@ -32,6 +32,11 @@ spring:
           uri: lb://shopping-cart
           predicates:
             - Path=/shopping-cart/**
+
+        - id: orders
+          uri: lb://orders
+          predicates:
+            - Path=/orders/**
           
 eureka:
   client:
@@ -51,9 +56,11 @@ springdoc:
     urls:
       - name: API de Autentificación
         url: /authentication/v3/api-docs
-      - name: API de usuarios
+      - name: API de Usuarios
         url: /users/v3/api-docs
       - name: API de Catálogo de Productos
         url: /api/catalog/v3/api-docs
       - name: API de Carrito de Compras
         url: /shopping-cart/v3/api-docs	
+      - name: API de Pedidos
+        url: /orders/v3/api-docs 
