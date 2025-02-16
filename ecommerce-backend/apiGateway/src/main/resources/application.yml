@@ -42,6 +42,11 @@ spring:
           uri: lb://payments
           predicates:
             - Path=/payments/**
+
+        - id: notifications
+          uri: lb://notifications
+          predicates:
+            - Path=/notifications/**
           
 eureka:
   client:
@@ -71,3 +76,5 @@ springdoc:
         url: /orders/v3/api-docs 
       - name: API de Pagos
         url: /payments/v3/api-docs
+      - name: API de Notificaciones
+        url: /notifications/v3/api-docs

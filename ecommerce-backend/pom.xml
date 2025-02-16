@@ -37,6 +37,7 @@
     <module>apiGateway</module>
     <module>orders</module>
     <module>payments</module>
+    <module>notifications</module>
   </modules>
 
   <properties>
