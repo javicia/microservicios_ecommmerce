@@ -36,6 +36,7 @@
     <module>prueba</module>
     <module>apiGateway</module>
     <module>orders</module>
+    <module>payments</module>
   </modules>
 
   <properties>

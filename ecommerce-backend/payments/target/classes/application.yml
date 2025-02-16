@@ -1,9 +1,9 @@
 server:
-  port: 8084
+  port: 8087
 
 spring:
   application:
-    name: order  
+    name: payments  
 
   datasource:
     url: jdbc:postgresql://localhost:5432/ecommerce_db 
