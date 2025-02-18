@@ -15,8 +15,9 @@ public class SecurityConfig {
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http.csrf(csrf -> csrf.disable()).authorizeHttpRequests(auth -> auth
-				.requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html", "/eureka/**", "/orders/**")
-				.permitAll().anyRequest().permitAll());
+				.requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html", "/eureka/**").permitAll()
+				// Exige autenticación para cualquier endpoint de orders
+				.requestMatchers("/orders/**").authenticated().anyRequest().permitAll());
 		return http.build();
 	}
 }

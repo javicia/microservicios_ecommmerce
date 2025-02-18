@@ -34,7 +34,13 @@ spring:
       instance:
         hostname: localhost
         preferIpAddress: true
-       
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/realms/UsersRealm
+
   management:
     endpoints:
       web:
@@ -43,6 +49,19 @@ spring:
       endpoint:
         health:
           show-details: always
+
+kafka:
+  bootstrap-servers: localhost:9092
+  consumer:
+    group-id: order_group
+    auto-offset-reset: earliest
+    key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+  producer:
+    key-serializer: org.apache.kafka.common.serialization.StringSerializer
+    value-serializer: org.apache.kafka.common.serialization.StringSerializer
+  topic:
+    order-events: order-events
 
 springdoc:
   api-docs:
