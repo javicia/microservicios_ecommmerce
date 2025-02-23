@@ -1,0 +1,95 @@
+server:
+  port: 8088
+
+spring:
+  application:
+    name: notifications
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/ecommerce_db
+    username: admin
+    password: admin
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update  # ⚠️ Cambiar a "validate" en producción
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true  # Formatea las consultas SQL para mayor legibilidad
+
+  cloud:
+    discovery:
+      enabled: true
+    eureka:
+      client:
+        serviceUrl:
+          defaultZone: "http://admin:admin@localhost:8761/eureka/"
+        registerWithEureka: true
+        fetchRegistry: true
+        eurekaServerBasicAuthUserName: admin
+        eurekaServerBasicAuthPassword: admin
+      instance:
+        hostname: localhost
+        preferIpAddress: true
+
+  mail:
+    host: live.smtp.mailtrap.io #Para entornos de pruebas con mailtrap
+    port: 587
+    username: api
+    password: 758f0b2728f02b21daa87b764def00a2
+
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls.enable: true
+
+  management:
+    endpoints:
+      web:
+        exposure:
+          include: "*"
+      endpoint:
+        health:
+          show-details: always
+
+kafka:
+  bootstrap-servers: localhost:9092
+  consumer:
+    group-id: notification_group
+    auto-offset-reset: earliest
+    key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+  producer:
+    key-serializer: org.apache.kafka.common.serialization.StringSerializer
+    value-serializer: org.apache.kafka.common.serialization.StringSerializer
+  topic:
+    user-events: notification-events
+
+
+springdoc:
+  api-docs:
+    enabled: true
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    disable-swagger-default-url: true
+    operationsSorter: alpha
+    tagsSorter: alpha
+  override-with-gateway-url: false  # 🔥 redirige Swagger a través del API Gateway
+
+security:
+  ignored:
+    - /v3/api-docs
+    - /swagger-ui.html
+    - /swagger-ui/**
+    - /webjars/**
+
+logging:
+  level:
+    org.springframework: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE

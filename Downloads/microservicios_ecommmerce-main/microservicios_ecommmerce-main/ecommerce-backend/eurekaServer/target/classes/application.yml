@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: eurekaserver_ecommerce
+server:
+  port: 8761
+eureka:
+  client:
+    registerWithEureka: false
+    fetch-registry: false
+  
+
+
+
