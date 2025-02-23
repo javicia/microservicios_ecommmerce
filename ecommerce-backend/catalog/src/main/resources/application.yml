@@ -1,0 +1,70 @@
+server:
+  port: 8082 
+
+spring:
+  application:
+    name: catalog  
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/ecommerce_db 
+    username: admin
+    password: admin
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update  # ⚠️ Cambiar a "validate" en producción
+    show-sql: true 
+    properties:
+      hibernate:
+        format_sql: true  # Formatea las consultas SQL para mayor legibilidad
+
+  cloud:
+    discovery:
+      enabled: true
+    eureka:
+      client:
+        serviceUrl:
+          defaultZone: "http://admin:admin@localhost:8761/eureka/"
+        registerWithEureka: true
+        fetchRegistry: true
+        eurekaServerBasicAuthUserName: admin
+        eurekaServerBasicAuthUserPassword: admin
+      instance:
+        hostname: localhost
+        preferIpAddress: true
+       
+  management:
+    endpoints:
+      web:
+        exposure:
+          include: "*"
+      endpoint:
+        health:
+          show-details: always
+
+springdoc:
+  api-docs:
+    enabled: true
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    disable-swagger-default-url: true
+    operationsSorter: alpha
+    tagsSorter: alpha
+  override-with-gateway-url: false  # 🔥 redirige Swagger a través del API Gateway
+
+# Permitir acceso público a Swagger en Security
+security:
+  ignored:
+    - /v3/api-docs
+    - /swagger-ui.html
+    - /swagger-ui/**
+    - /webjars/**
+
+logging:
+  level:
+    org.springframework: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE

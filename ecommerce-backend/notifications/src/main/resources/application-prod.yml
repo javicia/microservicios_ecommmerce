@@ -1,0 +1,95 @@
+server:
+  port: 8088
+
+spring:
+  application:
+    name: notifications
+
+  datasource:
+    url: jdbc:postgresql://${HOST_DB_POSTGRE_USER_ECOMMERCE}:${PORT_DB_POSTGRE_USER_ECOMMERCE}/ecommerce_db 
+    username: ${USER_DB_POSTGRE}
+    password: ${PASS_DB_POSTGRE}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update  # ⚠️ Cambiar a "validate" en producción
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true  # Formatea las consultas SQL para mayor legibilidad
+
+  cloud:
+    discovery:
+      enabled: true
+    eureka:
+      client:
+        serviceUrl:
+          defaultZone: "http://${USER_EUREKA}:${PASS_EUREKA}@${HOST_EUREKA}:${PORT_EUREKA}/eureka/"
+        registerWithEureka: true
+        fetchRegistry: true
+        eurekaServerBasicAuthUserName: ${USER_EUREKA}
+        eurekaServerBasicAuthPassword: ${PASS_EUREKA}
+      instance:
+        hostname: ${HOST_EUREKA}
+        preferIpAddress: true
+
+  mail:
+    host: ${HOST_MAILTRAP} #Para entornos de pruebas con mailtrap
+    port: ${PORT_MAILTRAP}
+    username: ${USER_DB_MAILTRAP}
+    password: ${PASS_DB_MAILTRAP}
+
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls.enable: true
+
+  management:
+    endpoints:
+      web:
+        exposure:
+          include: "*"
+      endpoint:
+        health:
+          show-details: always
+
+kafka:
+  bootstrap-servers: ${HOST_KAFKA}:${PORT_KAFKA}
+  consumer:
+    group-id: notification_group
+    auto-offset-reset: earliest
+    key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+  producer:
+    key-serializer: org.apache.kafka.common.serialization.StringSerializer
+    value-serializer: org.apache.kafka.common.serialization.StringSerializer
+  topic:
+    user-events: notification-events
+
+
+springdoc:
+  api-docs:
+    enabled: true
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    disable-swagger-default-url: true
+    operationsSorter: alpha
+    tagsSorter: alpha
+  override-with-gateway-url: false  # 🔥 redirige Swagger a través del API Gateway
+
+security:
+  ignored:
+    - /v3/api-docs
+    - /swagger-ui.html
+    - /swagger-ui/**
+    - /webjars/**
+
+logging:
+  level:
+    org.springframework: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
