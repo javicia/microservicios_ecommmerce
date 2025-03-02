@@ -133,4 +133,5 @@ El siguiente diagrama muestra la arquitectura general del sistema, integrando mi
 
 1. **Clonar el repositorio:**
    ```bash
-   git clone [https://github.com/tu-usuario/tu-repositorio.git](https://github.com/javicia/microservicios_ecommmerce.git)
+   git clone https://github.com/javicia/microservicios_ecommmerce.git
+   cd microservicios_ecommmerce
